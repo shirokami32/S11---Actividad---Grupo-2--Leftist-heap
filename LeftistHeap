@@ -12,7 +12,7 @@ struct Incidente{
 };
 
 struct Nodo {
-    int dato;
+    Incidente dato;
     int npl;
 
     Nodo* izq;
