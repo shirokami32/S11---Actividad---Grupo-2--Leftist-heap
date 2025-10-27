@@ -2,6 +2,14 @@
 
 using namespace std;
 
+struct Incidente{
+    int prioridad;
+    string descripcion;
+    string ubicacion;
+
+    Incidente(int p = 0, string d = "", string u = "")
+       : prioridad(p), descripcion(d), ubicacion(u) {}
+};
 
 struct Nodo {
     int dato;
@@ -36,8 +44,8 @@ Nodo* merge(Nodo* heap, Nodo* nuevoNodo){
 
 }
 
-Nodo* insertar(Nodo* heap, int dx){
-    Nodo* nuevoNodo = new Nodo(dx);
+Nodo* insertar(Nodo* heap, Incidente inc){
+    Nodo* nuevoNodo = new Nodo(inc);
     return merge(heap, nuevoNodo);
 }
 
