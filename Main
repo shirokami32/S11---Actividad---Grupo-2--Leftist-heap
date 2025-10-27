@@ -2,52 +2,33 @@
 
 using namespace std;
 
-struct Incidente{
+struct Incidente {
     int prioridad;
     string descripcion;
     string ubicacion;
 
-    Incidente(int p = 0, string d = "", string u = "")
-       : prioridad(p), descripcion(d), ubicacion(u) {}
+    Incidente(int p, string d, string u)
+        : prioridad(p), descripcion(d), ubicacion(u) {}
 };
 
 struct Nodo {
-    Incidente dato;
+    Incidente* incidente;
     int npl;
-
     Nodo* izq;
     Nodo* der;
 
-    Nodo(int dx) : dato(dx), npl(0), izq(nullptr), der(nullptr) {} 
-
+    Nodo(Incidente* i)
+        : incidente(i), npl(0), izq(nullptr), der(nullptr) {}
 };
 
-Nodo* merge(Nodo* heap, Nodo* nuevoNodo){
-    if(!heap) return nuevoNodo;
-    if(!nuevoNodo) return heap;
-    
-    if(heap->dato > nuevoNodo->dato)
-        swap(heap, nuevoNodo);
-    
-    heap->der = merge(heap->der, nuevoNodo);
-    
-    int nplD = heap->der ? heap->der->npl : -1;
-    int nplI = heap->izq ? heap->izq->npl : -1;
+// Insertando un nuevo incidente en el heap
+Nodo* merge(Nodo* h1, Nodo* h2);
 
-    if(nplI < nplD){
-        swap(heap->der, heap->izq);
-    }
-    
-    heap->npl = (heap->der ? heap->der->npl : -1) + 1;
-    
-    return heap;
-
-}
-
-Nodo* insertar(Nodo* heap, Incidente inc){
-    Nodo* nuevoNodo = new Nodo(inc);
+Nodo* insertar(Nodo* heap, Incidente* nuevo) {
+    Nodo* nuevoNodo = new Nodo(nuevo);
     return merge(heap, nuevoNodo);
 }
+
 
 Nodo* eliminarMin(Nodo* head){
     if(!head) return nullptr;
