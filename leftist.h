@@ -71,27 +71,63 @@ void printHeap(Nodo* heap, int padre){
 
 
 
-int main(){
+Nodo* merge(Nodo* h1, Nodo* h2) {
+    if (!h1) return h2;
+    if (!h2) return h1;
 
-    Nodo* heap = nullptr;
 
-    heap = insertar(heap, 10);
-    heap = insertar(heap, 5);
-    heap = insertar(heap, 20);
-    heap = insertar(heap, 3);
-    heap = insertar(heap, 11);
-    heap = insertar(heap, 16);
-    heap = insertar(heap, 30);
-    heap = insertar(heap, 42);
+    if (h1->incidente->prioridad > h2->incidente->prioridad)
+        swap(h1, h2);
 
-    cout<<endl<<endl<<"Recorrido Preorden: ";
-    printHeap(heap, -1);
 
-    heap = eliminarMin(heap);
-    heap = eliminarMin(heap);
+    h1->der = merge(h1->der, h2);
+   
+    int nplD = h1->der ? h1->der->npl : -1;
+    int nplI = h1->izq ? h1->izq->npl : -1;
+   
+    if (nplI < nplD)
+        swap(h1->der, h1->izq);
 
-    cout<<endl<<endl<<"Recorrido Preorden: ";
-    printHeap(heap, -1);
 
-    return 0;
+    h1->npl = (h1->der ? h1->der->npl : -1) + 1;
+
+
+    return h1;
 }
+
+void printHeap(Nodo* heap, int nivel = 0, string lado = "Raiz") {
+    if (!heap) return;
+
+
+    for (int i = 0; i < nivel; i++)
+        cout << "   ";
+
+
+    cout << "-> [" << lado << "] "
+         << "(Prioridad: " << heap->incidente->prioridad
+         << ", NPL: " << heap->npl << ") "
+         << heap->incidente->descripcion
+         << " | " << heap->incidente->ubicacion
+         << endl;
+
+
+    if (heap->izq)
+        printHeap(heap->izq, nivel + 1, "Izq");
+    if (heap->der)
+        printHeap(heap->der, nivel + 1, "Der");
+}
+
+
+void mostrarMenu() {
+    cout << "\n===== SISTEMA DE EMERGENCIAS =====\n";
+    cout << "1. Insertar nuevo incidente\n";
+    cout << "2. Atender incidente mas urgente\n";
+    cout << "3. Ver incidente mas urgente\n";
+    cout << "4. Fusionar zonas\n";
+    cout << "5. Mostrar estructura del heap\n";
+    cout << "6. Salir\n";
+    cout << "Seleccione una opcion: ";
+}
+
+
+
