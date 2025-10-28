@@ -56,21 +56,6 @@ void verMin(Nodo* heap){
     cout << "   Prioridad: " << heap->incidente->prioridad << endl;
 }
 
-void printHeap(Nodo* heap, int padre){
-    if(!heap) return;
-
-    cout<<endl<<"Valor actual: "<<heap->dato;
-    cout<<", Padre" << padre;
-    cout<<", NPL: "<<heap->npl;
-
-    cout<<endl<<"Hijo Izquierdo: ";
-    printHeap(heap->izq, heap->dato);
-    cout<<endl<<"Hijo Derecho: ";
-    printHeap(heap->der, heap->dato);
-}
-
-
-
 Nodo* merge(Nodo* h1, Nodo* h2) {
     if (!h1) return h2;
     if (!h2) return h1;
@@ -79,7 +64,14 @@ Nodo* merge(Nodo* h1, Nodo* h2) {
         swap(h1, h2);
 
     h1->der = merge(h1->der, h2);
-    swap(h1->izq, h1->der);
+    
+    int nplD = h1->der ? h1->der->npl : -1;
+    int nplI = h1->izq ? h1->izq->npl : -1;
+    
+    if (nplI < nplD)
+        swap(h1->der, h1->izq);
+
+    h1->npl = (h1->der ? h1->der->npl : -1) + 1;
 
     return h1;
 }
@@ -90,10 +82,12 @@ void printHeap(Nodo* heap, int nivel = 0, string lado = "Raiz") {
     for (int i = 0; i < nivel; i++)
         cout << "   ";
 
-    cout << "-> [" << lado << "] "
-         << "(Prioridad: " << heap->incidente->prioridad << ") "
+   cout << "-> [" << lado << "] "
+         << "(Prioridad: " << heap->incidente->prioridad
+         << ", NPL: " << heap->npl << ") "
          << heap->incidente->descripcion
-         << " | " << heap->incidente->ubicacion << endl;
+         << " | " << heap->incidente->ubicacion
+         << endl;
 
     if (heap->izq)
         printHeap(heap->izq, nivel + 1, "Izq");
