@@ -75,22 +75,11 @@ Nodo* merge(Nodo* h1, Nodo* h2) {
     if (!h1) return h2;
     if (!h2) return h1;
 
-
     if (h1->incidente->prioridad > h2->incidente->prioridad)
         swap(h1, h2);
 
-
     h1->der = merge(h1->der, h2);
-   
-    int nplD = h1->der ? h1->der->npl : -1;
-    int nplI = h1->izq ? h1->izq->npl : -1;
-   
-    if (nplI < nplD)
-        swap(h1->der, h1->izq);
-
-
-    h1->npl = (h1->der ? h1->der->npl : -1) + 1;
-
+    swap(h1->izq, h1->der);
 
     return h1;
 }
@@ -98,18 +87,13 @@ Nodo* merge(Nodo* h1, Nodo* h2) {
 void printHeap(Nodo* heap, int nivel = 0, string lado = "Raiz") {
     if (!heap) return;
 
-
     for (int i = 0; i < nivel; i++)
         cout << "   ";
 
-
     cout << "-> [" << lado << "] "
-         << "(Prioridad: " << heap->incidente->prioridad
-         << ", NPL: " << heap->npl << ") "
+         << "(Prioridad: " << heap->incidente->prioridad << ") "
          << heap->incidente->descripcion
-         << " | " << heap->incidente->ubicacion
-         << endl;
-
+         << " | " << heap->incidente->ubicacion << endl;
 
     if (heap->izq)
         printHeap(heap->izq, nivel + 1, "Izq");
@@ -117,9 +101,8 @@ void printHeap(Nodo* heap, int nivel = 0, string lado = "Raiz") {
         printHeap(heap->der, nivel + 1, "Der");
 }
 
-
 void mostrarMenu() {
-    cout << "\n===== SISTEMA DE EMERGENCIAS =====\n";
+    cout << "\n===== SISTEMA DE EMERGENCIAS=====\n";
     cout << "1. Insertar nuevo incidente\n";
     cout << "2. Atender incidente mas urgente\n";
     cout << "3. Ver incidente mas urgente\n";
@@ -128,6 +111,3 @@ void mostrarMenu() {
     cout << "6. Salir\n";
     cout << "Seleccione una opcion: ";
 }
-
-
-
