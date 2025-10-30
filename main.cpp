@@ -27,6 +27,7 @@ int main() {
                 zonaA = insertar(zonaA, new Incidente(prio, desc, ubi));
                 cout << "\n Incidente insertado correctamente.\n";
                 break;
+        }
             case 2:
                 zonaA = eliminarMin(zonaA);
                 break;
@@ -50,11 +51,12 @@ int main() {
             case 6:
                 cout << "\nSaliendo...\n";
                 break;
-      default:
+            default:
                 cout << "\nOpcion invalida.\n";
         }
-    } while (opcion != 6);
+    }while (opcion != 6);
 
     return 0;
-}
+
+} 
 
