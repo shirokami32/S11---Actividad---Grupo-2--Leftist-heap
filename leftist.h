@@ -31,10 +31,10 @@ Nodo* insertar(Nodo* heap, Incidente* nuevo) {
 }
 
 
-Nodo* eliminarMin(Nodo* head){
+Nodo* eliminarMin(Nodo* heap){
     if(!heap) return nullptr;
 
-    Nodo *nuevo = merge(head->izq, head->der);
+    Nodo *nuevo = merge(heap->izq, heap->der);
     cout << "\n Incidente atendido: "
          << heap->incidente->descripcion
          << " | Ubicacion: " << heap->incidente->ubicacion
